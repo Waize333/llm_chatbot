@@ -1,6 +1,7 @@
-Flask
-Flask_Cors
-torch
-torchvision
-torchaudio
-transformers==4.*
+Flask==2.3.3
+Flask-CORS==4.0.0
+transformers==4.35.0
+torch==2.1.0
+requests==2.31.0
+numpy
+gunicorn==21.2.0

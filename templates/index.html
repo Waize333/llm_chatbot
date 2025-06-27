@@ -1,47 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-  <!--general infomraion of the webpage-->
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chatbot</title>
-    <meta name="author" content="J.C. Chen">
-    <!-- <link rel="stylesheet" href="css/style.css" /> -->
+    <title>AI Assistant Pro - Client Solution</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-    <!-- <link rel="shortcut icon" href='favicon.ico' type="image/x-icon">
-    <link rel="icon" href='favicon.ico' type="image/x-icon"> -->
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
-  </head>
-  <!--end general information-->
-  <body>
-
-    <!-- <header>
-      <div class="color-block"></div>
-    </header> -->
-
-    <!--Chatbot container-->
-    <main>  
-      <div class="chatbot">
-        <div class="chat-header">
-          <h1>My LLM</h1>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="light-theme">
+    <div class="theme-particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">
+                    <div class="bot-logo-container">
+                        <div class="bot-core"></div>
+                        <div class="bot-ring"></div>
+                        <div class="bot-dots">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-text">
+                    <h2>AI Assistant Pro</h2>
+                    <span class="version">v2.0</span>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <div class="theme-toggle">
+                    <label class="switch">
+                        <input type="checkbox" id="theme-toggle">
+                        <span class="slider">
+                            <i class="fas fa-sun sun-icon"></i>
+                            <i class="fas fa-moon moon-icon"></i>
+                        </span>
+                    </label>
+                    <span class="theme-label">Dark Mode</span>
+                </div>
+                
+                <div class="personality-selector">
+                    <label for="personality">Assistant Mode:</label>
+                    <select id="personality" class="personality-select">
+                        <option value="friendly">🤗 Friendly</option>
+                        <option value="professional">💼 Professional</option>
+                        <option value="technical">🔧 Technical Expert</option>
+                        <option value="creative">🎨 Creative</option>
+                    </select>
+                </div>
+                
+                <button id="new-chat" class="control-btn futuristic-btn">
+                    <i class="fas fa-plus"></i>
+                    <span>New Chat</span>
+                    <div class="btn-glow"></div>
+                </button>
+                
+                <button id="export-chat" class="control-btn futuristic-btn">
+                    <i class="fas fa-download"></i>
+                    <span>Export Chat</span>
+                    <div class="btn-glow"></div>
+                </button>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-circle">
+                        <span class="stat-number" id="message-count">0</span>
+                    </div>
+                    <span class="stat-label">Messages</span>
+                </div>
+            </div>
         </div>
-        <div class="header-sub-text">
-          <p>Copyright © JC 2023 - Created by JC with <a class="purple">❤</a></p>
-        </div>
 
-        <div class="spacer" id="messages-container"></div>
-        
-        <form class="chat-form" id="message-form">
-          <textarea type="text" id="message-input" placeholder="Send a message..."></textarea>
-          <button type="submit">➤</button> 
-        </form>
-      </div>
-    </main>
-    <!--end chatbot container-->
+        <!-- Main Chat Area -->
+        <main class="chat-main">
+            <div class="chat-header">
+                <h1 class="chat-title">
+                    <span class="title-gradient">Your Intelligent Assistant</span>
+                    <div class="status-pulse"></div>
+                </h1>
+                <div class="status">
+                    <div class="status-indicator online"></div>
+                    <span>Online</span>
+                </div>
+            </div>
 
-    <!--Javascript to call the language model-->
+            <div class="messages-container" id="messages-container">
+                <div class="welcome-message">
+                    <div class="bot-avatar">
+                        <div class="avatar-inner">
+                            <div class="avatar-core"></div>
+                            <div class="avatar-ring"></div>
+                            <i class="fas fa-brain avatar-icon"></i>
+                        </div>
+                    </div>
+                    <div class="message-content">
+                        <h3>Welcome! How can I assist you today?</h3>
+                        <p>I'm your AI assistant, ready to help with various tasks. Choose a personality mode from the sidebar to customize my responses.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <form class="chat-form" id="message-form">
+                <div class="input-container">
+                    <textarea id="message-input" placeholder="Type your message here..." rows="1"></textarea>
+                    <button type="submit" id="send-btn" class="futuristic-send-btn">
+                        <div class="btn-inner">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                        <div class="btn-ripple"></div>
+                    </button>
+                </div>
+                <div class="input-footer">
+                    <small>Press Enter to send, Shift+Enter for new line</small>
+                </div>
+            </form>
+        </main>
+    </div>
+
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-    <!--end Javascript to call the language model-->
-  </body>
+</body>
 </html>
